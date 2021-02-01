@@ -1,0 +1,25 @@
+{
+  "name": "@codice-progressio/easy-images",
+  "version": "0.0.0",
+  "description": "Subida de imagenes facil a google cloud storage con firebase",
+  "main": "{",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RafaelAngelRamirez/easy-images.git"
+  },
+  "keywords": [
+    "google-cloud",
+    "firebase",
+    "imagenes",
+    "express"
+  ],
+  "author": "Rafael Ramirez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RafaelAngelRamirez/easy-images/issues"
+  },
+  "homepage": "https://github.com/RafaelAngelRamirez/easy-images#readme"
+}
