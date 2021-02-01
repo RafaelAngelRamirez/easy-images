@@ -4,6 +4,20 @@ const Sharp = require("sharp")
 const multer = require("multer")
 const ObjectId = require("mongoose").Types.ObjectId
 
+const parametros = {
+  GCLOUD_PROJECT_ID: "",
+  GCLOUD_APPLICATION_CREDENTIALS: "",
+  GCLOUD_STORAGE_BUCKET_UR: "",
+}
+
+module.exports.config = function (param = param) {
+  Object.keys(parametros).forEach(x => {
+    if (!param[x])
+      throw new Error(`[ easy-images ] Parametro no definido: ${x}`)
+  })
+  Object.assign(parametros, param)
+}
+
 // Filtro para multer para las extenciones deseadas.
 const fileFilter = (req, file, cb) => {
   if (
@@ -32,18 +46,16 @@ module.exports.recibirImagen = multer({
 })
 
 const storage = new Storage({
-  projectId: process.env.GCLOUD_PROJECT_ID,
-  ...(process.env.PRODUCCION === "false"
-    ? { keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS }
-    : { credentials: JSON.parse(process.env.GCLOUD_APPLICATION_CREDENTIALS) }),
+  projectId: parametros.GCLOUD_PROJECT_ID,
+  credentials: JSON.parse(parametros.GCLOUD_APPLICATION_CREDENTIALS),
 })
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL)
+const bucket = storage.bucket(parametros.GCLOUD_STORAGE_BUCKET_URL)
 /**
  * Crea un middleware de redimencion para reducir el tamaño de la imagen a max
  * 1200 px por lado y calidad 80
- * @param {*} req 
- * @param {*} params 
- * @param {*} next 
+ * @param {*} req
+ * @param {*} params
+ * @param {*} next
  */
 module.exports.redimencionarMiddleware = (req, params, next) => {
   // Con este middleware redimiensionamos el tamaño de
@@ -60,8 +72,8 @@ module.exports.redimencionarMiddleware = (req, params, next) => {
     .catch(err => next(err))
 }
 /**
- * Elimina una imagen de la nube y retorna una promesa con la respuesta. 
- * @param {*} nombre 
+ * Elimina una imagen de la nube y retorna una promesa con la respuesta.
+ * @param {*} nombre
  */
 module.exports.eliminarImagenDeBucket = function (nombre) {
   const file = bucket.file(nombre)
