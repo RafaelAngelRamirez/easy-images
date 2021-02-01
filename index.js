@@ -7,7 +7,7 @@ const ObjectId = require("mongoose").Types.ObjectId
 const parametros = {
   GCLOUD_PROJECT_ID: "",
   GCLOUD_APPLICATION_CREDENTIALS: "",
-  GCLOUD_STORAGE_BUCKET_UR: "",
+  GCLOUD_STORAGE_BUCKET_URL: "",
 }
 
 const storage = null
