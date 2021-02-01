@@ -10,8 +10,8 @@ const parametros = {
   GCLOUD_STORAGE_BUCKET_URL: "",
 }
 
-const storage = null
-const bucket = null
+var storage = null
+var bucket = null
 module.exports.config = function (param = param) {
   Object.keys(parametros).forEach(x => {
     if (!param[x])
