@@ -11,10 +11,11 @@ const parametros = {
 }
 
 const storage = null
+const bucket = null
 module.exports.config = function (param = param) {
   Object.keys(parametros).forEach(x => {
     if (!param[x])
-      throw new Error(`[ easy-images ] Parametro no definido: ${x}`)
+      throw new Error(msj("[ easy-images ]", `Parametro no definido: ${x}`))
   })
   Object.assign(parametros, param)
 
@@ -22,6 +23,7 @@ module.exports.config = function (param = param) {
     projectId: parametros.GCLOUD_PROJECT_ID,
     credentials: JSON.parse(parametros.GCLOUD_APPLICATION_CREDENTIALS),
   })
+  bucket = storage.bucket(parametros.GCLOUD_STORAGE_BUCKET_URL)
 }
 
 // Filtro para multer para las extenciones deseadas.
@@ -51,7 +53,6 @@ module.exports.recibirImagen = multer({
   },
 })
 
-const bucket = storage.bucket(parametros.GCLOUD_STORAGE_BUCKET_URL)
 /**
  * Crea un middleware de redimencion para reducir el tamaño de la imagen a max
  * 1200 px por lado y calidad 80
@@ -91,6 +92,9 @@ module.exports.eliminarImagenDeBucket = function (nombre) {
  * para guardarlo en nuestra imagen
  */
 module.exports.subirImagen = function (file) {
+  if (!bucket)
+    throw new Error(msj("[ easy-images ]", `Parametro no definido: ${x}`))
+
   return new Promise((resolve, reject) => {
     // Generamos un nuevo nombre con el object is
     const nuevoNombre = ObjectId() + ""
@@ -121,3 +125,7 @@ module.exports.subirImagen = function (file) {
 }
 
 module.exports.bucket = bucket
+
+function msj(textRed, text) {
+  return `\x1b[0m\x1b[31m\x1b[40m${textRed}\x1b[0m${text}`
+}
