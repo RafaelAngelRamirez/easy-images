@@ -4,7 +4,7 @@
   "description": "Subida de imagenes facil a google cloud storage con firebase",
   "main": "{",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/RafaelAngelRamirez/easy-images/issues"
   },
-  "homepage": "https://github.com/RafaelAngelRamirez/easy-images#readme"
+  "homepage": "https://github.com/RafaelAngelRamirez/easy-images#readme",
+  "dependencies": {
+    "@google-cloud/storage": "^5.7.4",
+    "mongoose": "^5.11.14",
+    "multer": "^1.4.2",
+    "sharp": "^0.27.1"
+  }
 }
