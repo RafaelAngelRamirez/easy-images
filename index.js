@@ -16,7 +16,13 @@ const fileFilter = (req, file, cb) => {
     cb(`La imagen ${file.originalname} no es de tipo jpg/jpeg or png`, false)
   }
 }
-
+/**
+ * Con la ayuda de multer prepara un middleware para la recepcion de una
+ * imagen que no sea mayor 5MB
+ *
+ * @param {*} buffer
+ * @returns Retorna un un objeto de multer con el que se pondran las opciones.
+ */
 module.exports.recibirImagen = multer({
   fileFilter,
   storage: multer.memoryStorage(),
@@ -32,7 +38,13 @@ const storage = new Storage({
     : { credentials: JSON.parse(process.env.GCLOUD_APPLICATION_CREDENTIALS) }),
 })
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL)
-
+/**
+ * Crea un middleware de redimencion para reducir el tamaño de la imagen a max
+ * 1200 px por lado y calidad 80
+ * @param {*} req 
+ * @param {*} params 
+ * @param {*} next 
+ */
 module.exports.redimencionarMiddleware = (req, params, next) => {
   // Con este middleware redimiensionamos el tamaño de
   // imagen para que no mida mas de 1000
@@ -47,7 +59,10 @@ module.exports.redimencionarMiddleware = (req, params, next) => {
     })
     .catch(err => next(err))
 }
-
+/**
+ * Elimina una imagen de la nube y retorna una promesa con la respuesta. 
+ * @param {*} nombre 
+ */
 module.exports.eliminarImagenDeBucket = function (nombre) {
   const file = bucket.file(nombre)
   return file.delete()
