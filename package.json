@@ -1,6 +1,6 @@
 {
   "name": "@codice-progressio/easy-images",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Subida de imagenes facil a google cloud storage con firebase",
   "main": "index.js",
   "scripts": {
